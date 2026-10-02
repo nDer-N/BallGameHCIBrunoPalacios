@@ -13,7 +13,6 @@ public class BallController : MonoBehaviour
     public KeyDirection jump;
     public int collectableUnits;
     public event Action<int, int> OnCollected;
-
     public event Action OnFall;
 
 
