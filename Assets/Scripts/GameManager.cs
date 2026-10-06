@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,12 +9,18 @@ public class GameManager : MonoBehaviour
     public BallController ball;
     public TMP_Text scoreText;
     public Transform SpawnPoint;
+    public GameObject Platform;
+    public float rotateAmount  = 0.001f;
+    public float rotateFreq = 1f;
+
+    private float _rotateTimer;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         ball.OnCollected += checkScore;
         ball.OnFall += Respawn;
         checkScore(0, 1);
+        
     }
 
 
@@ -37,9 +44,20 @@ public class GameManager : MonoBehaviour
         ball.transform.SetPositionAndRotation(SpawnPoint.position,SpawnPoint.rotation);
     }
 
+    public void RestartScene()
+    {
+        SceneManager.LoadScene("SampleScene");
+    }
+
     // Update is called once per frame
     void Update()
     {
-        
+        _rotateTimer += Time.deltaTime;
+
+        if (_rotateTimer >= rotateFreq)
+    {
+        _rotateTimer = 0; 
+        Platform.transform.Rotate(rotateAmount, 0f, 0f, Space.Self);
+    }
     }
 }
